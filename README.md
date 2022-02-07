@@ -27,6 +27,7 @@ OneHotEncoder와, standardScaler를 통하여 스케일링 작업을 진행하�
 
 - randomforest
 
+GridSearch가 가능한 항목들에 대해, 그리드서치 또한 실시하였습니다.
 
 ***
 ## 주석

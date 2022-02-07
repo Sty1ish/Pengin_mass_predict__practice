@@ -1,0 +1,53 @@
+1. train.csv : 학습 데이터
+id : 샘플 아이디
+Species: 펭귄의 종을 나타내는 문자열
+Island : 샘플들이 수집된 Palmer Station 근처 섬 이름
+Clutch Completion : 관찰된 펭귄 둥지의 알이 2개인 경우 Full Clutch이며 Yes로 표기
+Culmen Length (mm) : 펭귄 옆모습 기준 부리의 가로 길이
+Culmen Depth (mm) : 펭귄 옆모습 기준 부리의 세로 길이
+Flipper Length (mm) : 펭귄의 팔(날개) 길이
+Sex : 펭귄의 성별
+Delta 15 N (o/oo)  : 토양에 따라 변화하는 안정 동위원소 15N:14N의 비율
+Delta 13 C (o/oo) : 먹이에 따라 변화하는 안정 동위원소 13C:12C의 비율
+Body Mass (g): 펭귄의 몸무게를 나타내는 숫자 (g)
+
+> str(train)
+Classes ‘data.table’ and 'data.frame':	114 obs. of  11 variables:
+ $ id                 : int  0 1 2 3 4 5 6 7 8 9 ...
+ $ Species            : chr  "Gentoo penguin (Pygoscelis papua)" "Chinstrap penguin (Pygoscelis antarctica)" "Gentoo penguin (Pygoscelis papua)" "Gentoo penguin (Pygoscelis papua)" ...
+ $ Island             : chr  "Biscoe" "Dream" "Biscoe" "Biscoe" ...
+ $ Clutch Completion  : chr  "Yes" "No" "Yes" "Yes" ...
+ $ Culmen Length (mm) : num  50 49.5 45.1 44.5 49.6 51.1 42 46.4 34.1 47.7 ...
+ $ Culmen Depth (mm)  : num  15.3 19 14.4 14.7 16 16.5 20.2 18.6 18.1 15 ...
+ $ Flipper Length (mm): int  220 200 210 214 225 225 190 190 193 216 ...
+ $ Sex                : chr  "MALE" "MALE" "FEMALE" "FEMALE" ...
+ $ Delta 15 N (o/oo)  : num  8.31 9.63 8.52 8.2 8.38 ...
+ $ Delta 13 C (o/oo)  : num  -25.2 -24.3 -27 -26.2 -26.8 ...
+ $ Body Mass (g)      : int  5550 3800 4400 4850 5700 5250 4250 3450 3475 4750 ...
+
+
+2. test.csv : 테스트 데이터
+id : 샘플 아이디
+Species: 펭귄의 종을 나타내는 문자열
+Island : 샘플들이 수집된 Palmer Station 근처 섬 이름
+Clutch Completion : 관찰된 펭귄 둥지의 알이 2개인 경우 Full Clutch이며 Yes로 표기
+Culmen Length (mm) : 펭귄 옆모습 기준 부리의 가로 길이
+Culmen Depth (mm) : 펭귄 옆모습 기준 부리의 세로 길이
+Flipper Length (mm) : 펭귄의 팔(날개) 길이
+Sex : 펭귄의 성별
+Delta 15 N (o/oo)  : 토양에 따라 변화하는 안정 동위원소 15N:14N의 비율
+Delta 13 C (o/oo) : 먹이에 따라 변화하는 안정 동위원소 13C:12C의 비율
+
+
+3. sample_submissoin.csv : 제출 양식
+id : 샘플 아이디
+Body Mass (g) : 펭귄의 몸무게를 나타내는 숫자 (g)
+
+
+
+
+데이터 상세 설명
+성인 Adélie, Chinstrap 및 Gentoo 펭귄의 둥지 관찰, 펭귄 크기 데이터 및 혈액 샘플의 동위원소 측정을 포함한 데이터입니다.
+남극의 Palmer Station 근처 Palmer 군도에 있는 섬에서 관찰된 Adélie, chinstrap, Gentoo 펭귄의 먹이를 찾는 성체의 크기 측정, 클러치 관찰 및 혈액 동위원소 비율. 
+데이터는 Kristen Gor man 박사와 Palmer Station Long Term Ecological Research(LTER) 프로그램에 의해 수집되어 제공되었습니다.
+출처: https://allisonhorst.github.io/palmerpenguins/

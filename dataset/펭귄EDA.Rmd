@@ -1,0 +1,238 @@
+## 펭귄 데이터셋 EDA
+
+데이터셋 준비
+
+```{r}
+setwd('C:/Users/styli/Desktop/데이콘 프로젝트/동아리 pj-펭귄/dataset')
+library(data.table)
+library(dplyr)
+library(ggplot2)
+
+train = fread('train.csv')
+```
+
+# 데이터셋 확인
+
+```{r}
+str(train)
+```
+속성(변수)별 데이터 확인
+
+명목형 변수 4개
+```{r}
+table(train$Species)
+table(train$Island)
+table(train$`Clutch Completion`)
+table(train$Sex) # 결측 3
+```
+```{r}
+library(gridExtra)
+a = ggplot(train, aes(Species))+geom_bar()
+b = ggplot(train, aes(Island))+geom_bar()
+c = ggplot(train, aes(`Clutch Completion`))+geom_bar()
+d = ggplot(train, aes(Sex))+geom_bar()
+grid.arrange(a,b,c,d, nrow=2, ncol=2)
+```
+
+수치형 변수 5개
+
+```{r}
+train %>% select(c('Culmen Depth (mm)','Culmen Length (mm)','Flipper Length (mm)','Delta 15 N (o/oo)','Delta 13 C (o/oo)','Body Mass (g)')) %>% summary()
+```
+
+```{r}
+par(mfrow=c(2,3))
+hist(train$`Culmen Depth (mm)`)
+hist(train$`Culmen Length (mm)`)
+hist(train$`Flipper Length (mm)`)
+hist(train$`Delta 15 N (o/oo)`)
+hist(train$`Delta 13 C (o/oo)`)
+hist(train$`Body Mass (g)`)
+```
+```{r}
+a = ggplot(train, aes(`Culmen Depth (mm)`)) + geom_boxplot()
+b = ggplot(train, aes(`Culmen Length (mm)`)) + geom_boxplot()
+c = ggplot(train, aes(`Flipper Length (mm)`)) + geom_boxplot()
+d = ggplot(train, aes(`Delta 15 N (o/oo)`)) + geom_boxplot()
+e = ggplot(train, aes(`Delta 13 C (o/oo)`)) + geom_boxplot()
+f = ggplot(train, aes(`Body Mass (g)`)) + geom_boxplot()
+grid.arrange(a,b,c,d,e,f, nrow=2, ncol=3)
+
+rm(a,b,c,d,e,f)
+```
+
+상관관계 탐색.
+```{r}
+
+# 상관관게 분석(피어슨 상관계수-수치형 자료 한정)
+
+train %>% select(c('Culmen Depth (mm)','Culmen Length (mm)','Flipper Length (mm)','Delta 15 N (o/oo)','Delta 13 C (o/oo)','Body Mass (g)')) %>% cor()
+# 에러발생
+
+# 결측 탐색.
+train %>% is.na() %>% colSums()
+
+# 결측처리 - 행 버리기
+
+train %>% na.omit() %>% 
+  select(c('Culmen Depth (mm)','Culmen Length (mm)','Flipper Length (mm)','Delta 15 N (o/oo)','Delta 13 C (o/oo)','Body Mass (g)')) %>% 
+  cor() %>% print()
+
+```
+산점도 행렬.- 수치형 한정.
+```{r}
+train %>% na.omit() %>% 
+  select(c('Culmen Depth (mm)','Culmen Length (mm)','Flipper Length (mm)','Delta 15 N (o/oo)','Delta 13 C (o/oo)','Body Mass (g)')) %>% plot()
+
+
+```
+ 7   Sex              
+ 8   Delta 15 N (o/oo) 
+ 9   Delta 13 C (o/oo)
+이 세 행이 결측값이 존재한다.
+따라서 해당 요소와 상관관계를 파악할 필요가 있어보인다.
+```{r}
+nset = train %>% group_by('Sex')
+
+
+a1 = ggplot(train, aes(`Culmen Depth (mm)`)) + geom_histogram() + facet_wrap(Sex~., ncol=3)
+# factor_wrap => 출력이 여러개 나올수 있는 factor형은 겹처서 그려지는데, 이걸 전개해서 그리는것.
+a2 = ggplot(train, aes(`Culmen Length (mm)`)) + geom_histogram() + facet_wrap(Sex~., ncol=3)
+a3 = ggplot(train, aes(`Flipper Length (mm)`)) + geom_histogram() + facet_wrap(Sex~., ncol=3)
+a4 = ggplot(train, aes(`Delta 15 N (o/oo)`)) + geom_histogram() + facet_wrap(Sex~., ncol=3)
+a5 = ggplot(train, aes(`Delta 13 C (o/oo)`)) + geom_histogram() + facet_wrap(Sex~., ncol=3)
+grid.arrange(a1,a2,a3,a4,a5, nrow=5)
+
+```
+좀 보기 어려우면, 요약 통계량으로 확인해보자.
+```{r}
+aa = train %>% na.omit() %>% group_by(Sex) %>% 
+  summarise(Culmen_Depth = mean(`Culmen Depth (mm)`),
+            Culmen_Length = mean(`Culmen Length (mm)`),
+            Flipper_Length = mean(`Flipper Length (mm)`),
+            Delta_15 = mean(`Delta 15 N (o/oo)`),
+            Delta_13 = mean(`Delta 13 C (o/oo)`))
+
+```
+
+
+
+
+
+대충 회귀분석
+
+```{r}
+# 회귀분석
+reg = lm(`Body Mass (g)`~.,data = train)
+summary(reg)
+
+test = fread('test.csv')
+test[, c('Species', 'Island', 'Clutch Completion', 'Sex')] = lapply(test[ , c('Species', 'Island', 'Clutch Completion', 'Sex')], factor)
+
+# 대충 이렇게 예측하면 되겠지.
+head(predict(reg, test))
+
+# 베이스라인 회귀 끝.
+# 잔차의 4가정, IID에 특이값. 선형성 정규성, 등분산성가정.
+par(mfrow=c(2,2))
+plot(reg)
+
+# 변수선택법 사용. both
+
+step.reg = step(reg, direction = 'both')
+summary(step.reg)
+
+```
+
+
+
+# 파이썬으로 대충 해보자.
+
+파이썬과 R사이에는 변수 공유하지 않음. 미니콘다로 대체 실행하기 때문에
+미니콘다 사용한적 없다면 실행필요.
+```{r}
+list.of.packages<-c('reticulate','coda','dplyr', 'stringr')
+new.packages<-list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) {install.packages(new.packages)}
+library(reticulate)
+
+# install_miniconda() 이 구문은 단 한번만 실행되어야함. 중복설치 허용하지 않음. anaconda-spyder, pycharm 사용시 설치되었을 수도 있음.
+py_install('pandas')
+py_install('matplotlib')
+# 이미 설치되었다면, 확인만 하고 끝남.
+```
+
+
+
+```{python}
+import os
+import pandas as pd
+import numpy as np
+import matplotlib as plt
+
+
+# 데이터셋 임포트
+os.chdir(r'C:\Users\styli\Desktop\펭귄\dataset')
+train = pd.read_csv('train.csv')
+
+```
+
+결측체크
+
+```{python}
+# 결측값 있는 열 값 확인
+pd.set_option('display.max_columns', None) # 모든 열 출력 위함.
+
+nacell = train[train.isna().sum(axis=1) > 0]
+print(nacell)
+# 특이 패턴 없음.
+```
+
+```{python}
+# 테스트셋 미리 확인.
+test = pd.read_csv('test.csv')
+test.info()
+test = test.drop("id",axis=1)
+# test에서도, sex, delta15, delta 13에서만 결측 발생중. id행 무쓸모 함.
+
+# 즉 결측처리는 이 3행에 대해 실시하여야함.
+```
+
+결측 처리를 위한 값 확인
+```{python}
+train.loc[:,'Sex'].describe()
+train.loc[:,'Sex'].value_counts()
+# Sex의 최빈은 MAlE
+
+train.loc[:,'Delta 15 N (o/oo)'].describe()
+train.loc[:,'Delta 15 N (o/oo)'].mean()
+# delta 15의 평균은 8.73.... 해당연산값
+
+train.loc[:,'Delta 13 C (o/oo)'].describe()
+train.loc[:,'Delta 13 C (o/oo)'].mean()
+# delta 13의 평균은 -25.72....
+```
+train, test에 대해 전처리 실시. test는 train셋의 값으로 전처리
+```{python}
+train.loc[:,'Sex'] = train.loc[:,'Sex'].fillna('MALE')
+train.loc[:,'Delta 15 N (o/oo)'] = train.loc[:,'Delta 15 N (o/oo)'].fillna(train.loc[:,'Delta 15 N (o/oo)'].mean())
+train.loc[:,'Delta 13 C (o/oo)'] = train.loc[:,'Delta 13 C (o/oo)'].fillna(train.loc[:,'Delta 13 C (o/oo)'].mean())
+# train[train.isna().sum(axis=1) > 0]
+train.info() # 결측값 더이상 없음 확인 -> rangeidx 114 = 모든 요소 114 non-null으로 확인됨.
+
+#%%
+# 기저작업 동일하게 실시
+test.loc[:,'Sex'] = test.loc[:,'Sex'].fillna('MALE')
+test.loc[:,'Delta 15 N (o/oo)'] = test.loc[:,'Delta 15 N (o/oo)'].fillna(train.loc[:,'Delta 15 N (o/oo)'].mean())
+test.loc[:,'Delta 13 C (o/oo)'] = test.loc[:,'Delta 13 C (o/oo)'].fillna(train.loc[:,'Delta 13 C (o/oo)'].mean())
+#test[test.isna().sum(axis=1) > 0]
+test.info() # 결측값 더이상 없음 확인 -> rangeidx 228 = 모든 요소 228 non-null으로 확인됨.
+```
+결측값 사라짐이 확인됨.
+
+라벨인코더 함수 사용.
+약간 귀찮으니, 함수 사용.
+참조. https://hongl.tistory.com/263
+
+
+아... miniconda에는 사이킷런 모듈 없음. 니트 불가능하니, 포기하고 코드 지우고 파이썬 넘어간드아아아아

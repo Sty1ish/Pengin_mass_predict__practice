@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="50aae77d-ca24-403f-970b-da846a9c2146" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/dataset/.RData" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/.Rhistory" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/catboost_info/catboost_training.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/catboost_info/learn/events.out.tfevents" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/catboost_info/learn_error.tsv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/catboost_info/time_left.tsv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/eda.R" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/sample_submission.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/sss.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/test.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/train.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/펭귄EDA.Rmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/펭귄EDA.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/펭귄EDA_files/figure-html/unnamed-chunk-10-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/펭귄EDA_files/figure-html/unnamed-chunk-12-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/펭귄EDA_files/figure-html/unnamed-chunk-4-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/펭귄EDA_files/figure-html/unnamed-chunk-6-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/펭귄EDA_files/figure-html/unnamed-chunk-7-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/펭귄EDA_files/figure-html/unnamed-chunk-9-1.png" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="25NG4tdifiDpAhVGjXYv8juoMWs" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+</project>
